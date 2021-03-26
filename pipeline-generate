@@ -8,6 +8,7 @@ require "yaml"
 
 QUEUE = ENV["BUILDKITE_AGENT_META_DATA_QUEUE"] || "default"
 
+ARTIFACTS_PLUGIN = "artifacts#v1.2.0"
 DOCKER_COMPOSE_PLUGIN = "docker-compose#v3.7.0"
 
 REPO_ROOT = Pathname.new(ARGV.shift || File.expand_path("../..", __FILE__))
@@ -54,6 +55,11 @@ puts YAML.dump({
         "RUBYGEMS" => RUBYGEMS,
       },
       "plugins" => [
+        {
+          ARTIFACTS_PLUGIN => {
+            "download" => [".dockerignore", ".buildkite/*"],
+          },
+        },
         {
           DOCKER_COMPOSE_PLUGIN => {
             "run" => "gem",
