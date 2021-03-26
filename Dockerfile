@@ -7,7 +7,7 @@ ENV JRUBY_OPTS="--dev -J-Xmx1024M"
 # Wildcard ignores missing files; .empty ensures ADD always has at least
 # one valid source: https://stackoverflow.com/a/46801962
 ADD .buildkite/.empty .ci/pre-buil[d] .ci/
-ADD .buildkite/runner .buildkite/infer-version-path /usr/local/bin
+ADD .buildkite/runner .buildkite/infer-version-path /usr/local/bin/
 
 ARG BUNDLER
 ARG RUBYGEMS
@@ -18,12 +18,11 @@ RUN echo "--- :ruby: Updating RubyGems and Bundler" \
     && if [ -f ./.ci/pre-build ]; then \
         echo "--- :package: Installing system deps" \
         && chmod +x ./.ci/pre-build \
-        && ./.ci/pre-build \
-    fi
+        && ./.ci/pre-build; \
+    fi \
     && chmod +x /usr/local/bin/runner /usr/local/bin/infer-version-path \
-    # clean up
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* \
+    && rm -rf /var/lib/apt/lists/* /tmp/*
 
 ADD .buildkite/.empty lib/*/version.rb lib/.version/
 ADD Gemfile Gemfile.lock *.gemspec ./
