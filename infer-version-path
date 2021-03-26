@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require "fileutils"
+require "pathname"
+
+gemspecs = Dir.glob("*.gemspec")
+tempversion = Pathname.new("lib/.version/version.rb")
+
+exit unless gemspecs.size == 1
+gemspec = Pathname.new(gemspecs.first)
+exit unless gemspec.exist?
+
+exit unless tempversion.exist?
+
+requires = []
+gemspec.each_line do |line|
+  next unless line =~ /^\s*require\s+['"][\w\/-]+['"]\s*$/
+
+  requires << $1
+end
+
+version_requires = requires.grep(/\/version$/)
+exit unless version_requires.size == 1
+
+FileUtils.mv tempversion, "lib/#{version_requires.first}.rb"

@@ -1,0 +1,11 @@
+version: "3.6"
+
+services:
+  gem:
+    build:
+      context: ../
+      dockerfile: .buildkite/Dockerfile
+      args:
+        - RUBY_IMAGE
+    environment:
+      - CI
