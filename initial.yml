@@ -42,7 +42,7 @@ steps:
       [ -f .buildkite/.dockerignore ] && cp .buildkite/.dockerignore .dockerignore
     plugins:
       - artifacts#v1.2.0:
-          upload: ".buildkite/**/*"
+          upload: [".dockerignore", ".buildkite/**/*"]
     env:
       PIPELINE_COMMAND: >-
         docker run --rm
@@ -57,3 +57,4 @@ steps:
         .buildkite/pipeline-generate |
         buildkite-agent pipeline upload
     timeout_in_minutes: 5
+    depends_on: []
