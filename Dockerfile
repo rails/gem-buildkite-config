@@ -25,7 +25,7 @@ RUN echo "--- :ruby: Updating RubyGems and Bundler" \
     && rm -rf /var/lib/apt/lists/* /tmp/*
 
 ADD .buildkite/.empty lib/*/version.rb lib/.version/
-ADD Gemfile Gemfile.lock *.gemspec ./
+ADD Gemfile Gemfile.loc[k] *.gemspec ./
 
 RUN infer-version-path \
     && echo "--- :bundler: Installing Ruby deps" \
