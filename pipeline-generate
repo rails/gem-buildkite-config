@@ -15,9 +15,9 @@ REPO_ROOT = Pathname.new(ARGV.shift || File.expand_path("../..", __FILE__))
 
 
 def available_tags_for_image(image)
-  uri = URI("https://registry.hub.docker.com/v1/repositories/#{image}/tags")
+  uri = URI("https://registry.hub.docker.com/v2/repositories/library/#{image}/tags?page_size=1000")
   json = Net::HTTP.get(uri)
-  JSON.parse(json).map { |x| x["name"] }
+  JSON.parse(json).fetch("results").map { |x| x["name"] }
 end
 
 head_ruby_image = "rubylang/ruby:master-nightly-focal"
